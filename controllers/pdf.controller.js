@@ -19,9 +19,9 @@ const generate = async (req, res) => {
         
         const pdfUrl = await uploadPDF(pdfBuffer, fileName);
 
-        // if(email) {
-        //     await sendEmail(email, pdfBuffer, fileName);
-        // }
+        if(email) {
+            await sendEmail(email, pdfBuffer, fileName);
+        }
         if(phone) {
             await sendWhatsApp(phone, pdfUrl, fileName);
         }
