@@ -1,30 +1,50 @@
-const puppeteer = require("puppeteer-core");
-const chromium = require("@sparticuz/chromium");
+const puppeteer =
+  process.env.NODE_ENV === "production"
+    ? require("puppeteer-core")
+    : require("puppeteer");
+
+let chromium;
+if (process.env.NODE_ENV === "production") {
+  chromium = require("@sparticuz/chromium");
+}
 
 async function generatePDF(html) {
-    const browser = await puppeteer.launch({
-        args: chromium.args,
-        executablePath: await chromium.executablePath(),
-        headless: true
+  let browser;
+
+  if (process.env.NODE_ENV === "production") {
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+      headless: true,
     });
-    page = await browser.newPage()
+  } else {
+    browser = await puppeteer.launch({
+      headless: true,
+    });
+  }
+
+  try {
+    const page = await browser.newPage();
+
     await page.setContent(html, {
-        waitUntil: "domcontentloaded"
-    })
+      waitUntil: "domcontentloaded",
+    });
 
     const pdfBuffer = await page.pdf({
-        format: "A4",
-        printBackground:true,
-        margin: {
-            top: "20px",
-            bottom: "20px",
-            left: "20px",
-            right: "20px",
-        }
-    })
-    await browser.close();
+      format: "A4",
+      printBackground: true,
+      margin: {
+        top: "20px",
+        right: "20px",
+        bottom: "20px",
+        left: "20px",
+      },
+    });
 
     return pdfBuffer;
+  } finally {
+    await browser.close();
+  }
 }
 
 module.exports = generatePDF;

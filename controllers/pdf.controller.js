@@ -19,12 +19,12 @@ const generate = async (req, res) => {
         
         const pdfUrl = await uploadPDF(pdfBuffer, fileName);
 
-        if(email) {
-            await sendEmail(email, pdfBuffer, fileName);
-        }
-        // if(phone) {
-        //     await sendWhatsApp(phone, pdfUrl, fileName);
+        // if(email) {
+        //     await sendEmail(email, pdfBuffer, fileName);
         // }
+        if(phone) {
+            await sendWhatsApp(phone, pdfUrl, fileName);
+        }
 
         return res.status(200).json({
             success: true,
@@ -33,7 +33,6 @@ const generate = async (req, res) => {
             pdfUrl
         })
     }catch (error) {
-        console.error(error);
         return res.status(500).json({
             success: false,
             message: error.message
