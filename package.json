@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "postinstall": "npx puppeteer browsers install chrome",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,12 +15,13 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1085.0",
     "@aws-sdk/s3-request-presigner": "^3.1085.0",
+    "@sparticuz/chromium": "^149.0.0",
     "axios": "^1.18.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "nodemailer": "^9.0.3",
-    "puppeteer": "^25.3.0",
+    "puppeteer-core": "^25.3.0",
     "uuid": "^14.0.1"
   },
   "devDependencies": {

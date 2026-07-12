@@ -1,13 +1,12 @@
-const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer-core");
+const chromium = require("@sparticuz/chromium");
 
 async function generatePDF(html) {
     const browser = await puppeteer.launch({
-        headless:true,
-        args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox"
-        ]
-    })
+        args: chromium.args,
+        executablePath: await chromium.executablePath(),
+        headless: true
+    });
     page = await browser.newPage()
     await page.setContent(html, {
         waitUntil: "domcontentloaded"
